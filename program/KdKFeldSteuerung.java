@@ -7,19 +7,19 @@ import java.io.File;
 import java.awt.event.*;
 
 
-/** Steuerung der Benutzereingaben.<BR>
-  Steuert die Reaktionen auf Benutzerereignisse wie Knopfdruck auf die
-  Zug-Kn&ouml;pfe, Menu und Click in das Spielfeld.<BR>
-  Beim Laden der Klasse wird das Verzeichnis kdk/roboter nach .class
-  Dateien durchsucht, die als Robot1-Erben interpretiert werden. */
+/** Control of user input.<br />
+  Controls the reactions to user input like button clicks and
+  turn buttons, menu and clicks on the field.<br />
+  On loading the class, the folder kdk/robots will be searched for .class
+  fiels that inherit from Robot1. */
 
 public class KdKFeldSteuerung
 {
 
-/** Names des Pfades, wo die Roboterklassen zu finden sind. */
+/** Name of the path containing the robot classes. */
 	static String KLASSENPFAD = "kdk/roboter";
 	private static String[] roboter;
-/** Durchsucht den KLASSENPFAD nach potentiellen Roboterklassen.
+/** Searches the classpath for potential robot classes.
  * @see KdKFeldSteuerung#KLASSENPFAD */
 	static {
 		File dir = new File(KLASSENPFAD);
@@ -53,9 +53,9 @@ public class KdKFeldSteuerung
         private AddRobotDialog ard;
 
 
-/** Erstellt eine neue Instanz der FeldSteuerung.<BR>
-  der Konstruktor instantiiert auch das Spielfeld. Diese muss vom Hauptfenster
-  mittels getFeld() &uuml;bernommen werden.
+/** Creates a new instance of the FeldSteuerung.<br />
+  The constructor instanciates also the field.  This must taken by the 
+  main window using the getFeld() getter.
  * @see kdk.program.KdKFeldSteuerung#getFeld() */
 
 	public KdKFeldSteuerung(JFrame parent, JTextArea log)
@@ -65,7 +65,7 @@ public class KdKFeldSteuerung
 	}
 
 
-/** Gibt das Spielfeld zur&uuml;ck, auf das Kontrolle aufge&uuml;bt wird. */
+/** Returns the field on which this control instance acts. */
 
 	public KdKFeld getFeld()
 	{
@@ -73,10 +73,9 @@ public class KdKFeldSteuerung
 	}
 
 
-/** &Ouml;fnet einen Dialog, der den Benutzer nach Klasse und Position
-  fragt. Die Parameter geben den anf&auml;nglichen Inhalt der Positions-
-  felder an. Die Dialogklasse f&uuml;gt den Roboter dann sofort in das 
-  Feld ein.*/
+/** Opens a dialog which asks the user about classes and position.
+  Parameters are the initial values of the position textfields.
+  The dialog class then adds the robot after close.
 /* @see kdk.program.KdKFeld#addRobot(int, int, Robot1)*/
 
 	public void openAddRobotDialog(int x, int y)
@@ -85,8 +84,8 @@ public class KdKFeldSteuerung
 	}
 
 
-/** Verifiziert das l&ouml;schen eines Roboters.
- * @return Antowrt des Benutzers */
+/** Verifies from the user if a robot really should be deleted.
+ * @return user answer */
 
 	public boolean openKillRobotDialog()
 	{
@@ -98,7 +97,7 @@ public class KdKFeldSteuerung
 	}
 
 
-/** Verarbeitet das ActionCommand aller Ereignisse im Hauptfenster.
+/** Handles the ActionCommand of each event in the main window.
  * @see kdk.KriegdKerne */
 
 	public void perform(String s)
@@ -145,7 +144,7 @@ public class KdKFeldSteuerung
 	}
 
 
-/** F&uuml;hrt einen einzelnen Zug aus oder unterbricht den schnelle-Schritte-Thread. */
+/** Executes a single turn or stops the quick moves thread. */
 
 	public void einzelSchritt()
         {
@@ -161,8 +160,7 @@ public class KdKFeldSteuerung
         }
 
 
-/** Startet den schnelle-Schritte-Thread mit angegebener Verz&ouml;gerung in
-  Hundertstelsekunden. */
+/** Starts the quick moves thread with given delay (in 100th of a second). */
 
         public void schnelleSchritte(int delay)
         {
@@ -204,9 +202,9 @@ private class SchnelleSchritteThread extends Thread
 }
 
 
-/** Erlaubt das Einf&uuml;gen einer Roboterinstanz auf das Spielfeld.
-In Frage kommen dabei nur Roboterklassen, die im Pfad KLASSENPFAD gefunden werden. */
-/* @see KdKFeldSteuerung#KLASSENPFAD */
+/** Allows addition of a robot instance into the field.
+  Available classes are those found in the classpath. 
+ * @see KdKFeldSteuerung#KLASSENPFAD */
  
 public class AddRobotDialog extends JDialog
 {
@@ -303,7 +301,7 @@ public class AddRobotDialog extends JDialog
 	}
 
 
-/** &Ouml;ffnet den Dialog und setzt die angegebenen Parameter als X-, Y- Position ein. */
+/** Opens the dialog and sets given parameters in the position text fields. */
 
 	public void setVisible(int x, int y)
 	{
@@ -313,7 +311,7 @@ public class AddRobotDialog extends JDialog
 	}
 
 
-/** Pr&uuml;ft Instantiierbarkeit der Klasse und Regularit&auml;t der Position. */
+/** Validates class and position. */
 	public boolean bestaetigung()
 	{
 		String s = "kdk.roboter.";

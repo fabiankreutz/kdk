@@ -5,18 +5,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-/** Grafische und Datenkomponente.<BR>
-  Das Spielfeld enth&auml;lt ein Feld sowie einen Vector mit allen Robotern.
-  Als grafische Komponente malt sie sich selbst als Raster und ruft darauf
-  die paint()-Methode aller Roboter auf. */
+/** Component for graphic and data.<br />
+  This class has the field and a vector of all robots.
+  As graphical component it can paint itself and calls each robot's 
+  paint() method. */
 
 public class KdKFeld extends JComponent {
 
-/** Anzahl der Felder in der Horizontalen */
+/** Number of horizontal fields */
 	public static int xgroesse = 20;
-/** Anzahl der Felder in der Vertikalen */
+/** Number of vertical fields */
 	public static int ygroesse = 25;
-/** Infektionen / Marker anzeigen */
+/** Show infection / marker */
 	public static boolean verbose = true;
 
 	private JTextArea log = null;
@@ -28,9 +28,9 @@ public class KdKFeld extends JComponent {
 	private Buendnisse buendnisse;
 
 
-/** Erstellt eine neue Instanz des KdKFeldes.<BR>
-  Ben&ouml;tigt wird eine Instanz der FeldSteuerung in ein JTextArea, in das
-  die Meldungen geschrieben werden. */
+/** Creates a new instance of a KdkField.<br />
+  Requires an instance of a controlling FeldSteuerung and a JTextArea for
+  messages. */
 
 	public KdKFeld(KdKFeldSteuerung kfs, JTextArea log)
 	{
@@ -44,7 +44,7 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** F&uuml;gt eine Zeile an das Meldungsfeld an. */
+/** Appents a line into the message field. */
 
 	void addLogText(String s)
 	{
@@ -52,9 +52,8 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** F&uuml;gt einen Roboter in das Feld ein.
-  Im Vector wird er an die letzte Stelle gepackt und ist ensprechend zuletzt 
-  am Zug. */
+/** Adds a robot into the field.
+  It will be appended to the vector so that its turn will be last. */
 
 	boolean addRobot(int x, int y, Robot1 r)
 	{
@@ -76,8 +75,8 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** Entfernt einen Roboter aus Feld und Vector.
-  Zuletzt werden noch die "letzten Worte" ausgegeben. */
+/** Removes a robot from field and vector.
+  Finally, the "last words" will be posted on the message field. */
 
 	void removeRobot(Robot1 r)
 	 {
@@ -99,14 +98,14 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** Gibt den Inhalt eines Feldplatzes zur&uuml;ck. */
+/** Returns the content of a field. */
 
 	Robot1 getFeld(int x, int y)
 	{
 		return feld[x][y];
 	}
 
-/** Fragt die B&uuml;ndnisse der Roboter untereinander ab. */
+/** Determines if robots ar allied. */
 
 	boolean isVerbuendet(Robot1 r1, Robot1 r2)
 	{
@@ -116,7 +115,7 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** Gibt alle Roboter in einem Radius um den angegebenen Roboter zur&uuml;ck. */
+/** Returns all robots an a given radius. */
 
 	Vector getNachbarn(Robot1 r, int d)
 	{
@@ -132,7 +131,7 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** Leert das Feld und den Vector. */
+/** Empties field and vector. */
 
 	void clearAll()
 	{
@@ -144,7 +143,7 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** Bewegt den Inhalt eines Feldplatzes auf einen anderen. */
+/** Moves the content of a field to another field. */
 
         void move(Point p, Point q)
         {
@@ -155,9 +154,8 @@ public class KdKFeld extends JComponent {
         }
 
 
-/** Organisiert den Zug des im Vector ersten Roboters.
- * @returns false, wenn sich keine zwei gegnerischen Roboter mehr auf dem Feld
-  befinden. */
+/** Handles the turn of the first robot of the vector.
+ * @return false if no two enemy robots are on a field. */
 
 	boolean schritt()
 	{
@@ -202,8 +200,8 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** Interne Abfrage der Mausereignisse.<BR>
-  Diese Methode ruft processClick() mit Feldkoordinaten auf. */
+/** Internal query of mouse events.<br />
+  This method calls processClick() with coordinates. */
 
 	public void processMouseEvent(MouseEvent me)
 	{
@@ -213,10 +211,10 @@ public class KdKFeld extends JComponent {
 			             (me.getModifiers()));
 	}
 
-/** Reagiert auf einen Mausclick im Spielfeld.<BR>
-  Genauer : MouseReleased-Ereignis. Bei einem Linksclick wird die Info des
-  entsprechenden Roboters angezeigt. Rechtsclick &ouml;fnet entweder den
-  addRobotDialog oder den killRobotDialog in der Feldsteuerung.
+/** Reacts to a mouseclick on a field.<br />
+  More exact: MouseRelease-Event. A left click shows robot information
+  in the message bot.  A right click either shows the addRobotDialog or
+  the killRobotDialog.
  * @see kdk.program.KdKFeldSteuerung */
 
 	public void processClick(int x, int y, int button)
@@ -247,7 +245,7 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** Malt das Feld als Raster und ruft die paint()-Methoden der Roboter auf.
+/** Paints the field as a table and calls the paint() methods of the robots.
  * @see kdk.program.Robot1#paint(Graphics, int, int) */
 
 	public void paint(Graphics g)
@@ -278,8 +276,8 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** Berechnet die Position anhand der gegebenen Feldkoordinaten und ruft die
-  <I>paint()</I> Rountine der Roboter auf.
+/** Calculates the position according to the given coordinates and calls the
+  <i>paint</i> routine of the robots.
  * @see kdk.program.Robot1#paint(Graphics, int, int) */
 
 	public void repaintRobot(int a, int b)
@@ -326,7 +324,7 @@ public class KdKFeld extends JComponent {
 //	}
 
 
-/** Verwaltung der B&uuml;ndnisse unter den Robotern. */
+/** Management of alliances between robots. */
 
  class Buendnisse
  {
@@ -335,7 +333,7 @@ public class KdKFeld extends JComponent {
 	private int[] klaanz = new int[0];
 
 
-/** Debug-Methode zur Visualisierung der derzeitig gespeicherten B&uuml;ndnisse auf der Standardausgabe. */
+/** Debug method to visualize the current allies on the standard output. */
 
 	public void ausgabe()
 	{
@@ -349,7 +347,7 @@ public class KdKFeld extends JComponent {
 	}
 
 
-/** F&uuml;gt einen Roboter ins Feld ein und errechnet sich die B&uuml;ndnisklasse, zu dieser er geh&ouml;rt. */
+/** Adds a robot to the field and calculates the Buendnis class to which it belongs. */
 
 	public boolean addRobot(int s, int[] v)
 	{
@@ -385,14 +383,14 @@ KLASSENFOR:	for (int j=0; j<v.length; j++)
 	}
 
 
-/** Z&auml;hlt die Anzahl der  Roboter dieser B&uuml;ndnisklasse auf dem Feld um eins herab. */
+/** Decreases the number of robots in the alliance class of the robot on this field by one. */
 	public void removeRobot(int s)
 	{
 		klaanz[getKlasse(s)]--;
 	}
 
 
-/** Pr&uuml;ft, ob sich die Roboter gegenseitig als Verb&uuml;ndete angeben. */
+/** Checks if the robots accept each others as allies. */
 
 	public boolean isVerbuendet(int s1, int s2)
 	{
@@ -401,7 +399,7 @@ KLASSENFOR:	for (int j=0; j<v.length; j++)
 		return (getKlasse(s1) == getKlasse(s2));
 	}
 
-/** Pr&uuml;ft, ob sich mehr als eine B&uuml;ndnisklasse auf dem Spielfeld befindet. */
+/** Checks if there is more than one alliance left on the field. */
 
 	public boolean gegnerda()
 	{

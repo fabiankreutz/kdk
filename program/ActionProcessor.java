@@ -3,10 +3,10 @@ package kdk.program;
 import java.awt.Point;
 import java.util.Vector;
 
-/** Die Aktions-ausf&uuml;hrende Klasse.<BR>
-  Jeder Roboter bekommt mit seiner Zug-Routine eine Instanz dieser Klasse
-  mitgeliefert, &uuml;ber die er Einflu&szlig; auf das Spiel nehmen kann.<BR>
-  Nach Ende des Zuges wird diese Klasse unbrauchbar gemacht. */
+/** The class that executes the actions.<br />
+  Each robot receives an instance of this class in its turn routine, and can
+  influence the game through it.<br />
+  After the end of the turn this class will become unusable. */
 
 public class ActionProcessor
 {
@@ -23,7 +23,7 @@ public class ActionProcessor
 	private boolean inaktion = false;
 
 
-/** Erstellt eine neue Instanz eines ActionProcessors */
+/** Creates a new instance of the ActionProcessor */
 
 	public ActionProcessor(KdKFeld kf, Robot1 r)
 	{
@@ -33,9 +33,9 @@ public class ActionProcessor
 	}
 
 
-/**  F&uuml;hrt einen Schuss auf ein Zielfeld aus. R&uuml;ckgabewert ist der Erfolg
- der Aktion. Der Schuss gilt als Erfolg, wenn bez&uuml;glich der Enfernung und
- Intensit&auml;t genug Schussenergie zur Verf&uuml;gung steht. */
+/** Shoots into a target field. Return value is the success of the action.
+ The shot is considered a success, if there is enough energy available
+ considering the distance and intensity. */
 
 	public boolean processSchuss(Point ziel, int ensitaet)
 	{
@@ -60,11 +60,10 @@ public class ActionProcessor
 	}
 
 
-/** F&uuml;hrt einen Sensorscan aus. Der R&uuml;ckgabewert liefert einen Erfolg, wenn
-  ein Roboter auf dem Zielfeld entdeckt wurde. Ein Misserfolg kann durch
-  zu geringe Energie bez&uuml;glich der Entfernung und Intensit&auml;t, durch zu
-  geringe Intensit&auml;t bez&uuml;glich des Tarnschildes des fremden Roboters oder
-  einfach durch ein leeres Zielfeld entstehen. */
+/** Executes a sensor scan. The return value is success if a robot has been seen
+  on the target field. A failure to see it can be due to insufficient enery (for
+  distance and intensity), insufficient intensity to pierce the cloaking field or
+  simply an actually empty target field. */
 
 	public boolean processSensor(Point ziel, int ensitaet)
 	{
@@ -88,11 +87,10 @@ public class ActionProcessor
 	}
 
 
-/** Vermehrt den Roboter. Der Erfolg h&auml;ngt von der Fertilit&auml;t und dem
-  Inhalt des Zielfeldes ab. Ein Parasit kann sich auf ein besetztes Feld
-  hin instantiieren. Dabei frisst das Junge den fremden Roboter sofort auf.
-  Ist der Parasit nicht fertil, findet eine Infektion des gegnerischen
-  Roboters ab. */
+/** Creates a new copy of the robot.  Success depends on the fertility and the
+  content of the target field. A parasite can procreated into an occupied
+  field.  It will eat the other robot immediately.  If the parasite is infertile,
+  an infection of the enemy robot happens. */
 
 	public boolean processVermehren(Point ziel)
 	{
@@ -149,11 +147,11 @@ public class ActionProcessor
 	}
 
 
-/** L&auml;sst die Mine explodieren. Dabei tr&auml;gt jeder nicht-verb&uuml;ndete Roboter
-  in einem Feld Abstand einen Schaden von der doppelten &uuml;brigen Energie
-  der Mine davon. Verb&uuml;ndete Roboter erleiden keinen Schaden.<BR>
-  Die Mine wird durch diese Aktion zerst&ouml;rt, ist sie aber zu diesem
-  Zeitpunkt fertil, so entsteht eine neue Mine in der Asche. */
+/** Explodes the mine. This causes a damage of twice the remaining energy
+  to the mine to each enemy roboter in a field around.  Allied robots do
+  not receive damage.<br />
+  This action destroys the mine, but if it is fertile at the moment of
+  explosion, a new mine is created in the ashes. */
 
 	public void processExplosion()
 	{
@@ -188,10 +186,9 @@ UMKREISFOR:	for (int i=0; i<umkreis.length; i++)
 	}
 
 
-/** F&uuml;hrt eine Bewegung des Roboters aus. Der Erfolg h&auml;ngt von den noch
-  verf&uuml;gbaren Bewegungspunkten ab und dem Inhalt des Zielfeldes ab. Ist
-  das Zielfeld von einem Parasiten besetzt, so wird der Roboter gefressen,
-  jeder andere Roboter verhindert die Bewegung vollst&auml;ndig. */
+/** Moves the robot. Success depends on available movement points and the
+  content of the target field.  An enemy parasite immediately eats the
+  robot; any other enemy type prevents the movement. */
 
 	public boolean processBewegung(Point ziel)
 	{
@@ -227,10 +224,9 @@ UMKREISFOR:	for (int i=0; i<umkreis.length; i++)
 	}
 
 
-/** Sendet einen Ping an alle Roboter im Abstand der Intensit&auml;t. Die maximale
-  Intensit&auml;t betr&auml;gt hierbei 9. Alle Roboter in diesem Umkreis erhalten einen
-  Eintrag in ihr Logbuch, dabei wird auch die Position und die Sendesignatur
-  des Roboters gesendet. */
+/** Sends a ping to all robots within a distance defined by the given intensity.
+  Maximum intensity is 9. All robots in this circumference receive an entry in
+  their log containing position and signature of this robot. */
 
 	public void processPing(int ensitaet)
 	{
@@ -248,8 +244,7 @@ UMKREISFOR:	for (int i=0; i<umkreis.length; i++)
 	}
 
 
-/** Dieser kostenlose Scan f&uuml;hrt zu einem Erfolg, wenn ein Verb&uuml;ndeter
-  Roboter auf dem Zielfeld steht. */
+/** This free scan reports a succes if an allied robot occupies the target field. */
 
 	public boolean processSigScan(Point ziel)
 	{
@@ -264,9 +259,8 @@ UMKREISFOR:	for (int i=0; i<umkreis.length; i++)
 	}
 
 
-/** F&uuml;gt einen Integer-Eintrag in das Logbuch eines benachbarten Roboters
-  ein. Diese Aktion ist sehr unhygienisch und gibt parasit&auml;re Infektionen
-  weiter. */
+/** Enters a log entry into another robot's log.  This action is unhygenic
+  and causes parasitic infections to spread. */
 
 	public boolean processKommunikation(Point ziel, int data)
 	{
@@ -295,8 +289,8 @@ UMKREISFOR:	for (int i=0; i<umkreis.length; i++)
 	}
 
 
-/** Sonderaktion der J&auml;ger.  Der Position des Roboter auf dem Zielfeld ist
-  bis zu seinem Tod vom J&auml;ger per <I>getMarked()</I> zu erhalten. */
+/** Special action for hunters.  A robot on the target field will be marked
+  until the death of the hunter and can be tracked via <i>getMarked</i>. */
 
 	public void processMark(Point ziel)
 	{
@@ -313,8 +307,8 @@ UMKREISFOR:	for (int i=0; i<umkreis.length; i++)
 	}
 
 
-/** Sonderaktion f&uuml;r J&auml;ger. Gibt die aktuelle Position eines markierten
-  Roboter zur&uuml;ck. */
+/** Special action for hunters.  Returns the current position of a previously
+  marked robot. */
 
 	public Point getMarked()
 	{
@@ -323,8 +317,8 @@ UMKREISFOR:	for (int i=0; i<umkreis.length; i++)
 		return w.getMarked();
 	}
 
-/** L&ouml;scht alle Verbindungen zum Spielfeld. Die Methode processAction()
-  wird dadurch unbrauchbar und wird NullPointerExceptions werfen. */
+/** Removes all connections to the game field.  Method processAction()
+  becomes unusable and will throw a NullPointerExceptions. */
 
 	public void dispose()
 	{

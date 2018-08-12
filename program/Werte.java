@@ -4,23 +4,23 @@ import java.awt.Point;
 import java.util.Vector;
 
 
-/** Klasse zur Speicherung der Eigenschaften eines Roboters.
-  Eine Instanz dieser Klasse wird im Konsturktor permanent mit
-  diesem verbunden, somit liegen einige Werte durch den Konstrukt fest,
-  andere sind w&auml;rend das Spiels &auml;nderbar. */
+/** Class to store the properties of a robot.
+  An instance of this class will be permanently attached to a robot,
+  so that some values are given on construction while others change
+  at runtime. */
 
 public final class Werte
 {
 
 
-/** Kosten der Eigenschaften verschiedener Robotertypen */
+/** Costs of properties by robot type. */
 	static final int[][] kosten = {
-/* kein Typ */	{2, 3, 2, 2, 2},
-/* Parasit */	{3, 9, 1, 3, 2},
-/* Mine */	{2, 6, 5, 1, 2},
-/* Jäger */	{4, 5, 1, 4, 1},
-/* Brüter */	{1, 2, 5, 4, 3}};
-/** Maximalkosten die Robotertypen w&auml;hlen k&ouml;nnen */
+/* no type */	{2, 3, 2, 2, 2},
+/* parasite */	{3, 9, 1, 3, 2},
+/* mine */	{2, 6, 5, 1, 2},
+/* hunter */	{4, 5, 1, 4, 1},
+/* breeder */	{1, 2, 5, 4, 3}};
+/** Maximal points that robot types can pay. */
 	static final int[] maxkosten = {50, 50, 50, 50, 50};
 	static final int[] regeneration = {2,-1,1,1,3};
 	static final int[][] schusskosten = {
@@ -50,14 +50,13 @@ public final class Werte
 	private Vector marker = new Vector();
 	private int infektionsdauer = 0;
 
-/** Erstellt eine neue Instanz der KdkWerte. Die Parameter liegen in
-  dieser Instanz dann fest und k&ouml;nnen nicht mehr vom Roboter
-  ver&auml;ndert werden.
- * @param energie Energiewert des Roboters.
- * @param signatur Identifikationsmerkmal
- * @param fertilitaet Anzahl der Runden bis zur Vermehrung
- * @param typ Typ des Roboters
- * @param verbuendete Feld von Signaturen anderer Roboter */
+/** Creates a new instance of KdKWerte.  The parameters will be fixed
+  and cannot be changed by the robot.
+ * @param energie energy of the robot
+ * @param signatur signature
+ * @param fertilitaet number of rounds until fertile
+ * @param typ type of the robot
+ * @param verbuendete field of signatures of other robots. */
 
 	public Werte(int energie, int signatur, int fertilitaet,
 				int typ, int[] verbuendete)
@@ -77,8 +76,7 @@ public final class Werte
 	}
 
 
-/** Errechnet, ob die Energiewerte des Roboters innerhalb der
-  Toleranzen liegen. */
+/** Calculates if energy of robot is within tolerance. */
 
 	public final int validate()
 	{
@@ -97,7 +95,8 @@ public final class Werte
 	}
 
 
-/** Pr&uml;ft entg&uuml;ltig, ob der Roboter Schrott ist, regeneriert andernfalls die verbliebenen Bewegungspunkte in Energie, bzw zieht einen Punkt vom Parasiten ab. */
+/** Checks if a robot is defunct or otherwise regenerates remaining movement points into energy,
+  or reduces a point from the parasite. */
 
 	void regeneriere()
 	{
@@ -124,7 +123,7 @@ public final class Werte
 	}
 
 
-/** Infiziert diese Instanz. */
+/** Infects this instance. */
 
 	void infekt(Robot1 p)
 	{
@@ -133,7 +132,7 @@ public final class Werte
 	}
 
 
-/** Gibt den Parasiten zur&uuml;ck */
+/** Returns the parasite. */
 
 	Robot1 getParasit()
 	{
@@ -141,7 +140,7 @@ public final class Werte
 	}
 
 
-/** Gibt an, ob diese Instanz von einem Parasiten infiziert ist. */
+/** Shows, if the instance is infected by a parasite */
 
 	boolean isInfiziert()
 	{
@@ -149,7 +148,7 @@ public final class Werte
 	}
 
 
-/** Gibt an, wie lange die Infektion her ist. */
+/** Shows how long ago the infection happened. */
 
 	int getInfektionsDauer()
 	{
@@ -157,7 +156,7 @@ public final class Werte
 	}
 
 
-/** Gibt die aktuelle Position des Roboters zur&uuml;ck. */
+/** Returns the current position of the robot. */
 
 	public Point getPosition()
 	{
@@ -170,8 +169,8 @@ public final class Werte
 	}
 
 
-/** Gibt ein Feld mit den Signaturen verb&uuml;ndeter Roboterklassen zur&uuml;ck. Ein Roboter wird sofort abgewiesen, wenn es bei seiner Initiierung Konflikte mit anderen oder nicht erwiederten B&uuml;ndnissen gibt. */
-
+/** Returns the field of allied signatures.
+  A robot will be rejected, if there are alliance conflicts during initiation. */
 	int[] getVerbuendete()
 	{
 		return verbuendete;
@@ -188,7 +187,7 @@ public final class Werte
 	}
 
 
-/** Die Signatur, die der Roboter im Spiel sendet, die also ein anderer empf&auml;ngt, der sie abfragt. */
+/** The signature that the robot sends and which another robot receives upon query. */
 
 	public int getSendSignatur()
 	{
@@ -196,7 +195,7 @@ public final class Werte
 	}
 
 
-/** Die Roboterspezifische echte Signatur, die zur &Uuml;berpr&uuml;fung von B&uuml;ndnissen abgefragt wird. */
+/** The real signature which is used to determine alliances. */
 
 	public int getRealSignatur()
 	{
@@ -234,7 +233,7 @@ public final class Werte
 	}
 
 
-/** Addiert den &uuml;bergebenen Wert zur aktuellen Energie. */
+/** Adds to the current energy. */
 
 	void deltaEnergie(int wert)
 	{
@@ -242,14 +241,14 @@ public final class Werte
 	}
 
 
-/** Zieht den &uuml;bergebenen Wert von der Mobilit&auml;t ab. */
+/** Subtracts from current mobility (movement points). */
 	void deltaMobilitaet(int wert)
 	{
 		akt_mobilitaet -= wert;
 	}
 
 
-/** Zieht eins von der Anzahl der Sch&uuml;sse in dieser Runde ab. */
+/** Decreases number of shots for this turn. */
 
 	boolean schuss(int wert, int abstand)
 	{
@@ -261,7 +260,7 @@ public final class Werte
 	}
 
 
-/** Zieht eins von der Anzahl der Sensorscans in dieser Runde ab. */
+/** Decreases number of sensor scans for this turn. */
 
 	boolean sensor(int wert, int abstand)
 	{

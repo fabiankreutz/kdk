@@ -3,9 +3,9 @@ package kdk.roboter;
 import kdk.program.*;
 import java.awt.*;
 
-/** Roboter - ICH BIN SO DUMM<BR>
-Er tut nichts als ein wenig rumzulaufen und auch mal ein ganz kleines bisschen zu schiessen, wenn ihm mal etwas direkt vor die Flinte läuft.<BR>
-Startroboter Version 1.0 von Fabian Kreutz*/
+/** Robot - I AM SO STUPID<br />
+Does nothing more than running around a bit and shoot a little, if something happens to be right in front of it.<br />
+Example robot version 1.0 by Fabian Kreutz */
 
 public class Dummi extends Robot1 {
 

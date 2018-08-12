@@ -3,9 +3,9 @@ package kdk.roboter;
 import kdk.program.*;
 import java.awt.*;
 
-/** Roboter - DIE MINE<BR>
-Die Mine tut nichts, als sich gemächlich zu vermehren und immer, wenn ein Fremder vorbeikommt zu explodieren. Sie besitzt ein gutes Tarnfeld und versucht immer ein Feld abstand zu andern Minen zu wahren.<BR>
-Startroboter Version 1.2 von Fabian Kreutz */
+/** Robot - THE MINE</br>
+The mine does nothing but slowly procreating and expolding whenever a stranger comes close. It has a good cloaking field and tries to keep one field distance to other mines.<br />
+Example robot Version 1.2 by Fabian Kreutz */
 
 public class Mine extends Robot1
 {
@@ -83,7 +83,7 @@ public class Mine extends Robot1
 			    (!ap.processSigScan(u[b])))
 			{
 //				int i = gegnerCount();
-//	Ggf in eine größere Ansammlung von Feinden hineinlaufen.
+//  Maybe run into a greater amassment of enemies.
 				Point d;
 				if (b>4)
 					d = u[b-2];

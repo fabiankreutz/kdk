@@ -1,12 +1,12 @@
 package kdk.program;
 
-/** Standard-Exception, die beim Tod des Roboters die Zug-Rountine beendet.
-  Ebenso wird sie bei einem Schummelversuch geworfen. */
+/** Default exception which ends the turn of a robot on its death.
+  It also gets thrown on attempts to cheat. */
 
 public class KdKException extends RuntimeException
 {
 
-/** Erstellt eine neue Instanz der Exception */
+/** Creates a new instance */
 
 	public KdKException(String s)
 	{

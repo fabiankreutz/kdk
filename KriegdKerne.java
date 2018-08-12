@@ -7,8 +7,7 @@ import java.util.Vector;
 import kdk.program.*;
 
 
-/** KriegdKerne ist die ausf&uuml;hrbare Klasse des Spiels "Krieg der Kerne".<P>
-Siehe dazu die <A HREF="Anleitung.html">Anleitung</A>. */
+/** KriegdKerne is the executable class of the game "CoreWars". */
 
 public class KriegdKerne extends JFrame implements ActionListener
 {
@@ -18,7 +17,7 @@ public class KriegdKerne extends JFrame implements ActionListener
 	private KdKFeldSteuerung kfs = new KdKFeldSteuerung(this, logbuch);
 
 
-/** Startet den "Krieg der Kerne". Es wird lediglich der Konstruktor aufgerufen. */
+/** Starts the CoreWars. It only constructs the class. */
 
 	public static void main(String[] args)
 	{
@@ -26,7 +25,7 @@ public class KriegdKerne extends JFrame implements ActionListener
 	}
 
 
-/** Erstellt eine neue Instanz der Klasse, das Spiel wird hiermit gestartet. */
+/** Creates a new instance of the class, which starts the game. */
 	public KriegdKerne()
 	{
 		super("Krieg der Kerne");
@@ -128,7 +127,7 @@ public class KriegdKerne extends JFrame implements ActionListener
 	}
 
 
-/** Implementiert Reaktionen auf Benutzerereignisse. Die meisten werden allerdings an die FeldSteuerung weitergeleitet. Lediglich Druck des <I>Ende</I>-Menupunktes wird hier ausgef&uuml;hrt und im Falle des Knopfes <I>Schnelle Schritte</I> wird der Inhalt des Geschwindigkeitsfeldes angef&uuml;gt. */
+/** Implements reactions to user events. Most are proxied to FeldSteuerung (field controller). Only pressing the <i>end</i> menu entry is executed in case of the button <i>fast steps</i> appends the content of the speed textfield to the event name. */
 
 	public void actionPerformed(ActionEvent ae)
 	{

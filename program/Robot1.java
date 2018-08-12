@@ -4,7 +4,8 @@ import java.util.Vector;
 import java.awt.*;
 
 
-/** Robot1 ist der Ahne jeden mitspielenden Roboters. Hier sind alle Eigenschaft und auch die Spielelogik wird hier implementiert. Auf das Feld hat diese Klasse */
+/** Robot1 is a superclass of all participating robots.
+ It implements all properties and game logic. */
 
 public abstract class Robot1
 {
@@ -13,17 +14,19 @@ public abstract class Robot1
 	public static final int TYP_PARASIT	= 1;
 	public static final int TYP_MINE	= 2;
 	public static final int TYP_JAEGER	= 3;
-/** Zur Bedeutung der Typen siehe die <A HREF="Anleitung.html#typen">Anleitung</A> */
+/** For the meaning of the types, see <A HREF="Anleitung.html#typen">Anleitung</A> */
 	public static final int TYP_BRUETER	= 4;
 
 	private Werte werte = null;
 	private KdKFeld kf;
 	private Vector actionLog = new Vector();
-/** Die Standard-paint-Routine malt ein Rechteck mit dieser Farbe. */
+/** The default paint() meathod paints a rectangle of this color. */
 	protected Color farbe = Color.blue;
 
 
-/** Erstellt eine Instanz des Roboters. Die hier festgelegten Werte k&ouml;nnen zur Lebenszeit des Roboters nicht mehr von ihm selber ver&auml;ndert werden. Dies ist die einzige echte M&ouml;glichkeit f&uuml;r den Programmierer des Roboters eine legale Instanz zu bilden. */
+/** Creates an instance of the robot.
+  The values given here cannot be changed by the robot itself.
+  This is the only legal way to create a new robot instance. */
 
 	public Robot1(int energie, int signatur, int fertilitaet, int typ,
 			int[] verbuendete)
@@ -32,7 +35,8 @@ public abstract class Robot1
 	}
 
 
-/** Dieser Konstruktor wird beim manuellen Einf&uuml;gen des Roboters in das Feld aufgerufen. In seiner derzeitigen Implementierung kann der Roboter allerings nichts und hat auch keine Verb&uuml;ndete. */
+/** This constructor is called when the user manually adds a robot to the field.
+  In the current implementation it as a useless robot that has no allies. */
 
 	public Robot1()
 	{
@@ -40,7 +44,7 @@ public abstract class Robot1
 	}
 
 
-/** Platziert eine Feld-Instanz im Roboter, wegen des Zugriffs auf das Textfeld. */
+/** Stores the instance of the field in the robot, in order to access the textfield. */
 
 	final void start(KdKFeld kf)
 	{
@@ -48,14 +52,14 @@ public abstract class Robot1
 	}
 
 
-/** F&uuml;gt ein externes Ereignis in das Logbuch des Roboters ein. */
+/** Adds an external event into the log. */
 
 	final void addLog(int typ, Point p, int ensitaet)
 	{
 		actionLog.add(new KdKAction(typ,p,ensitaet));
 	}
 
-/** L&ouml;scht alle Eintr&auml;ge aus dem Logbuch. */
+/** Clears the log. */
 
 	final void clearLog()
 	{
@@ -63,7 +67,7 @@ public abstract class Robot1
 	}
 
 
-/** Gibt die interne Instanz der Eigenschaften zur&uuml;ck. */
+/** Returns the internal instance of all properties. */
 
 	public final Werte getWerte()
 	{
@@ -71,7 +75,8 @@ public abstract class Robot1
 	}
 
 
-/** Errechnet den Abstand dieser Instanz zu einem anderen Punkt. dabei wird die Torus-Eigenschaft des Feldes ber&uuml;cksichtigt. */
+/** Calculates the distance of this instance to another point.
+  Considering the torus form of the field. */
 
 	public final int getAbstand(Point p)
 	{
@@ -92,7 +97,7 @@ public abstract class Robot1
 	}
 
 
-/** Gibt ein Feld von den 8*r Punkten wieder, die den angegebenen Abstand von dieser Instanz haben. */
+/** Returns a field of 8*r points, which are of the given distance to this instance. */
 
 	public Point[] getUmgebung(int entf)
 	{
@@ -114,7 +119,7 @@ public abstract class Robot1
 		return result;
 	}
 
-/** Ber&uuml;cksichtigt die Torus-Eigenschaft des Feldes. */
+/** Considers the torus property of the field. */
 
 	public final Point getFeld(int xp, int yp)
 	{
@@ -128,8 +133,9 @@ public abstract class Robot1
 	}
 
 
-/** Gibt die Liste der in der letzten Runde empfangenen Ereignisse zur&uuml;ck. 
-Nach dem Ende der Runde wird das Logbuch automatisch gel&ouml;scht, es befinden sich also nur "neue" Ereignisse darin. */
+/** Returns a list of event received since the last turn.
+  At the end of the turn, the log will be automatically cleared, so that at all times there
+  are only "new" events in it. */
 
 	public KdKAction[] getLog()
 	{
@@ -138,7 +144,9 @@ Nach dem Ende der Runde wird das Logbuch automatisch gel&ouml;scht, es befinden 
 	}
 
 
-/** Gibt eine Meldung im Textfeld aus. Diese Methode sollte nicht exzessiv verwendet werden, da alleine schon die Letzte-Worte Meldungen das Textfeld f&uuml;llen. Verwenden Sie es besser nur f&uuml;r Debug-Meldungen. */
+/** Puts a message into the message field.
+  This method should not be used excessively, as already the "last words" fill up the text area.
+  Use this only for debug messages */
 
 	public void meldung(String s)
 	{
@@ -146,14 +154,20 @@ Nach dem Ende der Runde wird das Logbuch automatisch gel&ouml;scht, es befinden 
 	}
 
 
-/** Hier wird die Spielintelligenz des Roboters implementiert. Die Methode wird zu jedem Zug des Roboters einmal aufgerufen. Falls w&auml;hrend dieses Zuges der Tod eintritt, wird die Methode mit einer Exception beendet. Einflu&szlig; auf das Feld kann &uuml;ber den gegebenen ActionProcessor genommen werden. Dieser wird am Ende der Runde oder durch den Tod des Roboters ung&uuml;ltig gemacht und w&uuml;rde dann bei weiterem Aufruf zu einer Null-Pointer-Exception f&uuml;hren.
-Es empfiehlt sich zu Beginn des Zuges die Liste der in der letzten Runde empfangenen Ereignisse abzufragen.
+/** This is the game logic / intelligence of the robot.
+  This method is called once for each turn of the robot
+  If the robot dies during that turn, an exception is thrown.
+  The field can only be influenced via the given ActionProcessor, which will be disabled
+  on death or at the end of the turn.  Another attempt to access the field despite these
+  states will result in a NullPointerException.
+  It is useful to first check the list of received events.
  * @see Robot1#getLog() */
 
 	public abstract void zug(ActionProcessor kap);
 
 
-/** Gibt beim Aufruf der Vermehre-Aktion durch den Roboter die neue einzuf&uuml;gende Instanz zur&uuml;ck. Die Standardversion versucht die eigene Klasse neu zu instantiierten. */
+/** Returns the new instance upon procreation.
+  The default implementation instanciates this same class. */
 
 	public Robot1 instantiiere()
 	{
@@ -165,7 +179,7 @@ Es empfiehlt sich zu Beginn des Zuges die Liste der in der letzten Runde empfang
 	}
 
 
-/** Gibt einen Spruch zur&uuml;ck, der beim Tod einer Instanz im Textfeld erscheint. */
+/** Returns a short message whenever a robot of this class dies. */
 
 	public String letzteWorte()
 	{
@@ -173,7 +187,7 @@ Es empfiehlt sich zu Beginn des Zuges die Liste der in der letzten Runde empfang
 	}
 
 
-/** Gibt die Information zur&uuml;ck, die bei einem Links-Click auf einen Roboter im Textfeld erscheint. */
+/** Returns the info to be shown to the user after left mouse click. */
 	
 	public String info()
 	{
@@ -184,7 +198,7 @@ Es empfiehlt sich zu Beginn des Zuges die Liste der in der letzten Runde empfang
 	}
 
 
-/** Malt den Roboter. Die Standardversion malt ein Rechteck der gespeicherten Farbe.
+/** Paints the robot. The default implementation paints a rectangle of a certain color.
  * @see Robot1#farbe */
 
 	public void paint(Graphics g, int b, int h)
@@ -193,7 +207,8 @@ Es empfiehlt sich zu Beginn des Zuges die Liste der in der letzten Runde empfang
 		g.fillRect(0,0,b,h);
 	}
 
-/** Speichert die Werte einer Aktion ab. Aktionen die Einflu&szlig; auf andere Roboter haben (Schuss, Sensorscan) werden von diesem empfangen und im Logbuch abgelegt.
+/** Properties of a single action.
+  Actions with effect on other robots (shot, scan) are stored in their log.
  * @see Robot1#getLog() */
 
 protected class KdKAction {
@@ -203,7 +218,7 @@ protected class KdKAction {
 	private int ensitaet = 0;
 
 
-/** Speichert den Typen der Aktion, den Ausgangspunkt und die Intensit&auml;t ab. */
+/** Saves the type of action, source position and intensity. */
 
 	public KdKAction(int t, Point p, int e)
 	{
